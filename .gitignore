@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.venv/
+dist/
+models/
+publisher-config.json
+publisher-settings.json

@@ -1,0 +1,4 @@
+numpy==2.5.5
+opencv-python-headless==5.1.0.95
+onnxruntime==1.32.0
+pyrealsense2==2.59.2.11152

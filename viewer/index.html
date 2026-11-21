@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c141b">
+  <meta name="referrer" content="no-referrer">
+  <title>RealSense Viewer</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <span>RealSense <strong>Viewer</strong></span>
+      </div>
+      <span class="connection" id="connection" data-state="waiting"><i></i><span id="connection-label">Connecting</span></span>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-heading">
+      <div>
+        <h1>People detection</h1>
+        <p>Live camera feed and camera-relative positions.</p>
+      </div>
+      <div class="controls">
+        <button id="overlay" type="button" aria-pressed="true" disabled>Overlays</button>
+        <button id="pause" type="button" disabled>Pause</button>
+        <button id="setup-open" type="button" aria-haspopup="dialog">Local setup</button>
+      </div>
+    </div>
+
+    <div class="dashboard">
+      <section class="panel feed" aria-labelledby="feed-heading">
+        <div class="panel-heading">
+          <h2 id="feed-heading">Camera feed</h2>
+          <div class="segmented" role="group" aria-label="Camera view">
+            <button type="button" data-camera-mode="rgb" aria-pressed="true">RGB</button>
+            <button type="button" data-camera-mode="blend" aria-pressed="false" disabled>RGB + Depth</button>
+            <button type="button" data-camera-mode="depth" aria-pressed="false" aria-keyshortcuts="Y" title="Depth view (Y)" disabled>Depth</button>
+          </div>
+        </div>
+        <div class="viewport">
+          <canvas id="video" width="640" height="480" aria-label="Live image with person detection overlays"></canvas>
+          <div class="placeholder" id="placeholder"><span class="reticle" aria-hidden="true"></span><span id="placeholder-label">Connecting to camera</span></div>
+        </div>
+        <div class="feed-footer">
+          <span id="source">Waiting for camera</span>
+          <span class="model"><span id="resolution"></span>YOLOX-Tiny<span id="fps"></span></span>
+        </div>
+        <div class="depth-legend" id="depth-legend" hidden>
+          <span id="depth-near">0.2 m</span><span class="depth-scale" aria-hidden="true"></span><span id="depth-far">6 m</span>
+        </div>
+      </section>
+
+      <div class="side">
+        <section class="panel position" aria-labelledby="position-heading">
+          <div class="panel-heading">
+            <h2 id="position-heading">Camera-relative position</h2>
+            <div class="segmented" role="group" aria-label="Position plot">
+              <button type="button" id="plot-space" aria-pressed="true" disabled>3D</button>
+              <button type="button" id="plot-top" aria-pressed="false">Top</button>
+            </div>
+          </div>
+          <canvas id="plot" width="720" height="500" tabindex="0" aria-label="Position vectors from the camera to detected people. Drag or use the arrow keys to rotate the 3D view."></canvas>
+          <div class="plot-footer"><span id="plot-note">Vectors originate at the camera.</span><button type="button" id="reset-orbit" hidden>Reset view</button></div>
+        </section>
+
+        <section class="panel detections" aria-labelledby="detection-heading">
+          <div class="panel-heading">
+            <h2 id="detection-heading">Detections</h2>
+            <span class="count" id="count">—</span>
+          </div>
+          <p id="empty">Waiting for camera.</p>
+          <ul id="people"></ul>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <dialog id="setup" aria-labelledby="setup-heading">
+    <div class="dialog-heading">
+      <h2 id="setup-heading">Local publisher setup</h2>
+      <form method="dialog"><button type="submit">Close</button></form>
+    </div>
+    <p>Download the portable publisher on the PC with the USB camera. Extract the ZIP, then open <strong>Start-RealSense.bat</strong>.</p>
+    <div class="setup-downloads">
+      <a href="/download/RealSense-Publisher-Portable.zip" class="action" download>Download portable publisher</a>
+      <a href="/download/publisher-settings.json" class="action" download>Download local configuration</a>
+    </div>
+  </dialog>
+</body>
+</html>
